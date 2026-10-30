@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Susun Menu SPPG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1F3A;--navy2:#16305A;--gold:#E3B93C;--cream:#F4F1E8;--ink:#0B1F3A;--mute:#4A5A78;--line:#E6E1D2;--ok:#0B5132;--okbg:#DDEFE5;--warn:#5C4300;--warnbg:#FCEFC7;--bad:#B42318;--badbg:#FDE7E4;--info:#33415C;--infobg:#E6EAF1}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--cream);color:var(--ink);font-size:14px}
+button,input,select{font-family:inherit;font-size:14px}
+h1{margin:0;font-size:26px;font-weight:800}
+h2{margin:0;font-size:18px;font-weight:800}
+.wrap{display:flex;flex-wrap:wrap;min-height:100vh}
+.side{flex:1 1 232px;max-width:100%;background:var(--navy);color:#fff;padding:20px 14px;display:flex;flex-direction:column;gap:18px}
+.main{flex:999 1 560px;min-width:0;padding:24px;display:flex;flex-direction:column;gap:18px}
+.brand small{display:block;font-size:11px;letter-spacing:.08em;color:var(--gold);font-weight:700}
+.brand b{font-size:19px;font-weight:800}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{min-height:44px;text-align:left;padding:0 12px;border:0;border-radius:10px;background:transparent;color:#D3DCEB;cursor:pointer;font-weight:500}
+.nav button.on{background:var(--gold);color:var(--navy);font-weight:700}
+.me{margin-top:auto;background:var(--navy2);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:2px}
+.me span{font-size:12px;color:#B9C6DD}.me em{font-style:normal;font-size:12px;color:var(--gold)}
+.card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(11,31,58,.08);display:flex;flex-direction:column;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.row>.k{flex:1 1 180px}
+.k{background:#fff;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:4px;box-shadow:0 1px 2px rgba(11,31,58,.08)}
+.k.dark{background:var(--navy);color:#fff}.k.dark .l{color:#B9C6DD}.k.dark .v{color:var(--gold)}
+.l{font-size:11px;font-weight:700;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
+.v{font-size:20px;font-weight:800}
+.days{display:flex;flex-wrap:wrap;gap:8px}
+.days button{min-height:44px;min-width:60px;padding:4px 12px;border:0;border-radius:10px;background:#fff;color:var(--ink);cursor:pointer;font-weight:700;display:flex;flex-direction:column;align-items:center;line-height:1.2}
+.days button small{font-size:10px;font-weight:600;opacity:.8}
+.days button.on{background:var(--navy);color:#fff}
+table{width:100%;border-collapse:collapse}
+.tw{overflow-x:auto}
+th{background:var(--navy);color:#fff;text-align:left;padding:10px;font-size:13px;white-space:nowrap}
+th:first-child{border-radius:8px 0 0 8px}th:last-child{border-radius:0 8px 8px 0}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+input,select{min-height:44px;padding:0 10px;border:1.5px solid #B8C2D6;border-radius:8px;background:#fff;color:var(--ink);max-width:100%}
+input[readonly],input:disabled,select:disabled{background:#F1F1EC;color:#4A5A78;border-color:#D8D2BE}
+input.n{width:90px}input.w{width:100%}
+label{font-size:12px;font-weight:700;color:var(--info);display:block;margin-bottom:4px}
+.btn{min-height:44px;padding:0 18px;border-radius:10px;border:2px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;cursor:pointer}
+.btn.pri{background:var(--gold);border-color:var(--gold);color:var(--navy);font-weight:800}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.bad{border-color:var(--bad);color:var(--bad)}
+.btn:disabled{background:var(--infobg);border:2px dashed #7A869D;color:var(--mute);cursor:not-allowed}
+.chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.chip.ok{background:var(--okbg);color:var(--ok)}.chip.warn{background:var(--warnbg);color:var(--warn)}.chip.bad{background:var(--badbg);color:#6B0F08}.chip.info{background:var(--infobg);color:var(--info)}
+.alert{padding:14px 16px;border-radius:12px;line-height:1.5;border:2px solid}
+.alert.bad{background:var(--badbg);border-color:var(--bad);color:#6B0F08}
+.alert.ok{background:var(--okbg);border-color:var(--ok);color:#073821}
+.alert.warn{background:var(--warnbg);border-color:#8A6A00;color:var(--warn)}
+.alert.info{background:var(--infobg);border-color:#B8C2D6;color:#1B2A47}
+.alert b{display:block;font-size:16px;margin-bottom:2px}
+.mute{color:var(--mute);font-size:13px}
+.bar{position:relative;height:12px;border-radius:6px;background:var(--infobg);min-width:120px}
+.bar i{display:block;height:12px;border-radius:6px;background:var(--navy)}.bar i.over{background:var(--bad)}
+.bar u{position:absolute;top:-4px;bottom:-4px;width:3px;background:var(--navy)}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);max-width:92vw;padding:12px 18px;border-radius:12px;background:var(--navy);color:#fff;font-weight:600;display:none;z-index:9}
+#toast.bad{background:var(--bad)}
+.login{max-width:380px;margin:8vh auto;padding:0 16px}
+.login .card{padding:24px}
+.login h1{color:var(--navy)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+@media(max-width:720px){.main{padding:14px}.side{padding:12px 10px}.nav{flex-direction:row;flex-wrap:wrap}.nav button{flex:1 1 auto}.me{display:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+(function () {
+'use strict';
+var S = { token: null, data: null, tab: 'dashboard', hari: 1, draft: {}, busy: false };
+var TAHAP = { menu: 'Susun menu', bahan: 'Bahan & bumbu', gramasi: 'Gramasi', budget: 'Budget', po: 'PO' };
+var TAHAP_ROLE = { menu: 'ahli_gizi', bahan: 'chef', gramasi: 'ahli_gizi', budget: 'akuntan', po: 'akuntan' };
+var TABS = [['dashboard', 'Dashboard'], ['menu', '1 · Susun Menu'], ['bahan', '2 · Bahan & Bumbu'], ['gramasi', '3 · Gramasi & Gizi'], ['budget', '4 · Budget Harian'], ['po', '5 · PO & Persetujuan'], ['master', 'Master & Pengaturan'], ['akun', 'Akun']];
+var GIZI = [['kkal', 'Energi', 'kkal'], ['protein', 'Protein', 'g'], ['lemak', 'Lemak', 'g'], ['karbo', 'Karbohidrat', 'g']];
+
+function $(s, r) { return (r || document).querySelector(s); }
+function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function rp(n) { return 'Rp ' + Math.round(Number(n) || 0).toLocaleString('id-ID'); }
+function nf(n, d) { return (Number(n) || 0).toLocaleString('id-ID', { maximumFractionDigits: d == null ? 1 : d }); }
+function num(v) { var n = parseFloat(String(v == null ? '' : v).replace(',', '.')); return isFinite(n) ? n : 0; }
+function call(fn) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return new Promise(function (res, rej) {
+    var r = google.script.run.withSuccessHandler(res).withFailureHandler(rej);
+    r[fn].apply(r, args);
+  });
+}
+function store(k, v) { try { if (v == null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch (e) {} }
+function load(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
+function toast(msg, bad) {
+  var t = $('#toast'); t.textContent = msg; t.className = bad ? 'bad' : '';
+  t.style.display = 'block'; clearTimeout(toast.t);
+  toast.t = setTimeout(function () { t.style.display = 'none'; }, bad ? 6000 : 2600);
+}
+function errMsg(e) { return String((e && e.message) || e || 'Terjadi kesalahan').replace(/^(Error|Exception):\s*/, ''); }
+
+/* ---------- state helpers ---------- */
+function role() { return S.data.user.role; }
+function isR() { var r = role(); for (var i = 0; i < arguments.length; i++) if (arguments[i] === r) return true; return false; }
+function H(n) { return S.data.hari.filter(function (h) { return h.hari === n; })[0]; }
+function bahanAktif() { return S.data.bahan.filter(function (b) { return String(b.aktif).toUpperCase() === 'YA'; }); }
+function bahanById(id) { return S.data.bahan.filter(function (b) { return b.id === id; })[0]; }
+function canEdit(stage, h) { return isR(TAHAP_ROLE[stage]) && h.tahap === stage; }
+function latestPO(hari) {
+  var l = S.data.po.filter(function (p) { return p.hari === hari; });
+  l.sort(function (a, b) { return b.versi - a.versi; });
+  return l[0];
+}
+function tahapChip(h) {
+  var po = latestPO(h.hari);
+  if (h.tahap === 'po' && po) {
+    var m = { draft: ['PO draft', 'info'], menunggu: ['PO menunggu persetujuan', 'warn'], disetujui: ['PO disetujui', 'ok'], ditolak: ['PO ditolak', 'bad'] }[po.status];
+    if (m) return '<span class="chip ' + m[1] + '">' + m[0] + '</span>';
+  }
+  return '<span class="chip info">' + esc(TAHAP[h.tahap]) + '</span>';
+}
+function dk(type) { return type + '-' + S.hari; }
+function draft(type, init) { var k = dk(type); if (!S.draft[k]) S.draft[k] = init(); return S.draft[k]; }
+function clearDraft(hari) { Object.keys(S.draft).forEach(function (k) { if (k.slice(-('-' + hari).length) === '-' + hari) delete S.draft[k]; }); }
+
+/* ---------- actions ---------- */
+function act(fn, okMsg, after) {
+  if (S.busy) return;
+  S.busy = true; toast('Memproses…');
+  return fn().then(function (res) {
+    if (res) S.data = res;
+    S.busy = false; if (after) after(); render(); toast(okMsg || 'Tersimpan');
+  }).catch(function (e) {
+    S.busy = false;
+    var m = errMsg(e);
+    if (m === 'SESI_HABIS') { logout(true); return; }
+    toast(m, true);
+  });
+}
+function logout(expired) {
+  if (S.token) call('api_logout', S.token).catch(function () {});
+  S.token = null; S.data = null; store('tok', null);
+  renderLogin(expired ? 'Sesi habis. Silakan masuk lagi.' : '');
+}
+
+/* ---------- login ---------- */
+function renderLogin(msg) {
+  $('#app').innerHTML = '<div class="login"><div class="card">' +
+    '<div><div class="l" style="color:#8A6A00">SPPG DUREN SAWIT 12</div><h1>Susun Menu</h1><p class="mute">Penyusunan menu 10 hari, budget harian, dan PO.</p></div>' +
+    (msg ? '<div class="alert warn" role="alert">' + esc(msg) + '</div>' : '') +
+    '<form id="fl" style="display:flex;flex-direction:column;gap:12px">' +
+    '<div><label for="u">Username</label><input id="u" class="w" autocomplete="username" autocapitalize="none" required></div>' +
+    '<div><label for="p">Password</label><input id="p" type="password" class="w" autocomplete="current-password" required></div>' +
+    '<button class="btn pri" type="submit">Masuk</button></form></div></div>';
+  $('#fl').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    if (S.busy) return; S.busy = true; toast('Masuk…');
+    call('api_login', $('#u').value, $('#p').value).then(function (r) {
+      S.busy = false; S.token = r.token; S.data = r.data; store('tok', r.token); S.tab = 'dashboard'; render(); $('#toast').style.display = 'none';
+    }).catch(function (e) { S.busy = false; toast(errMsg(e), true); });
+  });
+}
+
+/* ---------- layout ---------- */
+function render() {
+  if (!S.data) return renderLogin('');
+  var u = S.data.user;
+  var nav = TABS.map(function (t) { return '<button data-act="tab" data-v="' + t[0] + '" class="' + (S.tab === t[0] ? 'on' : '') + '">' + esc(t[1]) + '</button>'; }).join('');
+  var info = { ahli_gizi: 'Edit menu, gramasi, master bahan', chef: 'Edit bahan & bumbu', akuntan: 'Edit harga, budget, ajukan PO', kepala: 'Menyetujui PO', aslap: 'Hanya lihat · tanpa edit' }[u.role];
+  var body = ({ dashboard: vDashboard, menu: vMenu, bahan: vBahan, gramasi: vGramasi, budget: vBudget, po: vPO, master: vMaster, akun: vAkun })[S.tab]();
+  $('#app').innerHTML = '<div class="wrap"><aside class="side"><div class="brand"><small>SPPG DUREN SAWIT 12</small><b>Susun Menu</b></div>' +
+    '<nav class="nav" aria-label="Menu utama">' + nav + '</nav>' +
+    '<div class="me"><span>Masuk sebagai</span><b>' + esc(u.nama) + '</b><span>' + esc(u.roleNama) + '</span><em>' + esc(info) + '</em></div></aside>' +
+    '<main class="main">' + (u.role === 'aslap' ? '<div class="alert info"><b>Mode hanya lihat</b>Semua tahap bisa dipantau, tetapi data tidak bisa diubah dari akun Asisten Lapangan.</div>' : '') + body + '</main></div>';
+  if (S.tab === 'gramasi') liveGramasi();
+}
+function dayTabs() {
+  return '<div class="days" role="tablist" aria-label="Pilih hari">' + S.data.hari.map(function (h) {
+    return '<button data-act="day" data-v="' + h.hari + '" class="' + (S.hari === h.hari ? 'on' : '') + '"><span>H' + h.hari + '</span><small>' + esc(TAHAP[h.tahap]) + '</small></button>';
+  }).join('') + '</div>';
+}
+function head(sub, title) { return '<div><div class="mute" style="font-weight:600">' + esc(sub) + '</div><h1>' + esc(title) + '</h1></div>'; }
+function catatanBanner(h) {
+  if (h.versi > 1 && h.catatan) {
+    return '<div class="alert warn" role="status"><b>Menu hari ke-' + h.hari + ' pernah diganti (versi ' + h.versi + ')</b>' + esc(h.catatan) + '. Hanya hari ini yang diulang; hari lain tidak berubah.</div>';
+  }
+  return '';
+}
+function notYet(stageName, h) {
+  return '<div class="alert info"><b>Hari ke-' + h.hari + ' sedang di tahap "' + esc(TAHAP[h.tahap]) + '"</b>Tahap ' + esc(stageName) + ' hanya bisa diubah saat hari ini berada di tahap tersebut.</div>';
+}
+
+/* ---------- Dashboard ---------- */
+function vDashboard() {
+  var d = S.data, tugas = [];
+  d.hari.forEach(function (h) {
+    var po = latestPO(h.hari);
+    if (isR('ahli_gizi') && (h.tahap === 'menu' || h.tahap === 'gramasi')) tugas.push('H' + h.hari + ': ' + TAHAP[h.tahap]);
+    if (isR('chef') && h.tahap === 'bahan') tugas.push('H' + h.hari + ': isi bahan & bumbu');
+    if (isR('akuntan') && (h.tahap === 'budget' || (h.tahap === 'po' && po && (po.status === 'draft' || po.status === 'ditolak')))) tugas.push('H' + h.hari + ': ' + (h.tahap === 'budget' ? 'hitung budget' : 'ajukan PO'));
+    if (isR('kepala') && h.tahap === 'po' && po && po.status === 'menunggu') tugas.push('H' + h.hari + ': setujui/tolak PO');
+  });
+  var lolos = d.hari.filter(function (h) { return h.tahap === 'po'; }).length;
+  var rows = d.hari.map(function (h) {
+    var c = h.calc, pct = c.batas ? Math.min(100, Math.round(c.biaya / c.batas * 100)) : 0;
+    return '<tr><td><b>H' + h.hari + '</b></td><td>' + esc(h.menu_nama || '—') + '</td><td>' + tahapChip(h) + '</td><td>' +
+      (c.batas && c.jumlahBahan ? rp(c.biaya) + ' <span class="mute">/ ' + rp(c.batas) + '</span>' : '<span class="mute">—</span>') + '</td></tr>';
+  }).join('');
+  return head('Siklus menu 10 hari', 'Dashboard') +
+    '<div class="row"><div class="k dark"><div class="l">Hari sudah jadi PO</div><div class="v">' + lolos + ' dari ' + d.hari.length + '</div></div>' +
+    '<div class="k"><div class="l">Tugas untuk Anda</div><div class="v">' + tugas.length + '</div><div class="mute">' + (tugas.length ? esc(tugas.join(' · ')) : 'Tidak ada tugas saat ini') + '</div></div></div>' +
+    '<div class="card"><h2>Menu 10 hari</h2><div class="tw"><table><thead><tr><th>Hari</th><th>Menu</th><th>Tahap</th><th>Estimasi / batas harian</th></tr></thead><tbody>' + rows + '</tbody></table></div></div>';
+}
+
+/* ---------- 1. Menu ---------- */
+function vMenu() {
+  var h = H(S.hari), ed = canEdit('menu', h);
+  var items = draft('menu', function () {
+    return S.data.meta.jenisKomponen.map(function (j) {
+      var k = S.data.komponen.filter(function (x) { return x.hari === h.hari && x.jenis === j; })[0];
+      return { jenis: j, nama: k ? k.nama : '' };
+    });
+  });
+  var inputs = items.map(function (it, i) {
+    return '<div><label for="mn' + i + '">' + esc(it.jenis) + '</label><input id="mn' + i + '" class="w" data-d="menu" data-i="' + i + '" value="' + esc(it.nama) + '"' + (ed ? '' : ' disabled') + '></div>';
+  }).join('');
+  return head('Tahap 1 · Ahli Gizi', 'Susun Menu') + dayTabs() + catatanBanner(h) +
+    '<div class="card"><h2>Menu hari ke-' + h.hari + '</h2><div class="grid2">' + inputs + '</div>' +
+    (ed ? '<div class="row"><button class="btn" data-act="menu-save">Simpan draft</button><button class="btn pri" data-act="menu-send">Kirim ke Chef</button></div>' : notYetOrView('menu', h)) + '</div>';
+}
+function notYetOrView(stage, h) { return h.tahap === stage ? '<div class="mute">Anda hanya dapat melihat tahap ini.</div>' : notYet(TAHAP[stage], h); }
+
+/* ---------- 2. Bahan & Bumbu (Chef) ---------- */
+function vBahan() {
+  var h = H(S.hari), ed = canEdit('bahan', h);
+  var komp = S.data.komponen.filter(function (k) { return k.hari === h.hari && String(k.nama).trim(); });
+  var rows = draft('bahan', function () {
+    return S.data.bahanMenu.filter(function (x) { return x.hari === h.hari; }).map(function (x) { return { komponen: x.komponen, bahan_id: x.bahan_id, jenis: x.jenis }; });
+  });
+  var kOpt = function (sel) { return komp.map(function (k) { return '<option value="' + esc(k.nama) + '"' + (k.nama === sel ? ' selected' : '') + '>' + esc(k.jenis + ' · ' + k.nama) + '</option>'; }).join(''); };
+  var bOpt = function (sel) {
+    var kat = {}; bahanAktif().forEach(function (b) { (kat[b.kategori] = kat[b.kategori] || []).push(b); });
+    return '<option value="">— pilih —</option>' + Object.keys(kat).map(function (k) {
+      return '<optgroup label="' + esc(k) + '">' + kat[k].map(function (b) { return '<option value="' + esc(b.id) + '"' + (b.id === sel ? ' selected' : '') + '>' + esc(b.nama) + '</option>'; }).join('') + '</optgroup>';
+    }).join('');
+  };
+  var body = rows.map(function (r, i) {
+    return '<tr><td><select data-d="bahan" data-i="' + i + '" data-f="komponen"' + (ed ? '' : ' disabled') + '>' + kOpt(r.komponen) + '</select></td>' +
+      '<td><select data-d="bahan" data-i="' + i + '" data-f="bahan_id"' + (ed ? '' : ' disabled') + '>' + bOpt(r.bahan_id) + '</select></td>' +
+      '<td><select data-d="bahan" data-i="' + i + '" data-f="jenis"' + (ed ? '' : ' disabled') + '><option' + (r.jenis === 'Bahan' ? ' selected' : '') + '>Bahan</option><option' + (r.jenis === 'Bumbu' ? ' selected' : '') + '>Bumbu</option></select></td>' +
+      '<td>' + (ed ? '<button class="btn bad" data-act="bahan-del" data-v="' + i + '" aria-label="Hapus baris ' + (i + 1) + '">Hapus</button>' : '') + '</td></tr>';
+  }).join('');
+  return head('Tahap 2 · Chef', 'Bahan & Bumbu per Menu') + dayTabs() + catatanBanner(h) +
+    '<div class="card"><h2>Hari ke-' + h.hari + ' · ' + esc(h.menu_nama || 'menu belum diisi') + '</h2>' +
+    (h.tahap === 'bahan' && h.versi > 1 ? '<div class="alert warn" role="status"><b>Isi ulang bahan hari ini</b>Menu diganti. Hanya hari ke-' + h.hari + ' yang diisi ulang.</div>' : '') +
+    '<div class="tw"><table><thead><tr><th>Komponen menu</th><th>Bahan / bumbu</th><th>Jenis</th><th></th></tr></thead><tbody>' + (body || '<tr><td colspan="4" class="mute">Belum ada bahan.</td></tr>') + '</tbody></table></div>' +
+    (ed ? '<div class="row"><button class="btn" data-act="bahan-add">+ Tambah baris</button><button class="btn" data-act="bahan-save">Simpan draft</button><button class="btn pri" data-act="bahan-send">Kirim ke Ahli Gizi</button></div>' : notYetOrView('bahan', h)) + '</div>';
+}
+
+/* ---------- 3. Gramasi & Gizi ---------- */
+function gramasiRows(h) {
+  var ids = [], seen = {};
+  S.data.bahanMenu.filter(function (x) { return x.hari === h.hari; }).forEach(function (x) { if (!seen[x.bahan_id]) { seen[x.bahan_id] = 1; ids.push(x.bahan_id); } });
+  return ids.map(function (id) {
+    var g = S.data.gramasi.filter(function (x) { return x.hari === h.hari && x.bahan_id === id; })[0];
+    return { bahan_id: id, bersih_g: g && g.bersih_g ? g.bersih_g : '', matang_g: g && g.matang_g ? g.matang_g : '' };
+  });
+}
+function vGramasi() {
+  var h = H(S.hari), ed = canEdit('gramasi', h);
+  var st = draft('gramasi', function () { return { porsi: h.porsi || S.data.setting.porsi_default || '', rows: gramasiRows(h) }; });
+  var body = st.rows.map(function (r, i) {
+    var b = bahanById(r.bahan_id) || { nama: r.bahan_id, bdd: 0 };
+    return '<tr><td><b>' + esc(b.nama) + '</b></td>' +
+      '<td><input class="n" inputmode="decimal" data-d="gr" data-i="' + i + '" data-f="bersih_g" value="' + esc(r.bersih_g) + '" aria-label="Berat bersih ' + esc(b.nama) + '"' + (ed ? '' : ' disabled') + '></td>' +
+      '<td>' + nf(b.bdd, 1) + '%</td><td id="gb' + i + '">—</td>' +
+      '<td><input class="n" inputmode="decimal" data-d="gr" data-i="' + i + '" data-f="matang_g" value="' + esc(r.matang_g) + '" aria-label="Berat matang ' + esc(b.nama) + '"' + (ed ? '' : ' disabled') + '></td>' +
+      '<td id="gt' + i + '">—</td><td id="gm' + i + '">—</td></tr>';
+  }).join('');
+  var gcards = GIZI.map(function (g) {
+    return '<div class="k"><div class="l">' + g[1] + ' / porsi</div><div class="v"><span id="gz-' + g[0] + '">0</span> <span class="mute">' + g[2] + '</span></div><div id="gs-' + g[0] + '"></div></div>';
+  }).join('');
+  return head('Tahap 3 · Ahli Gizi · dihitung per hari', 'Gramasi, BDD & Gizi') + dayTabs() + catatanBanner(h) +
+    (h.tahap === 'gramasi' || h.tahap === 'budget' || h.tahap === 'po' ? '' : notYet('Gramasi', h)) +
+    '<div class="card"><h2>Hari ke-' + h.hari + ' · ' + esc(h.menu_nama || '—') + '</h2>' +
+    '<div class="row" style="align-items:flex-end"><div><label for="porsi">Porsi hari ini</label><input id="porsi" class="n" inputmode="numeric" data-d="porsi" value="' + esc(st.porsi) + '"' + (ed ? '' : ' disabled') + '></div>' +
+    '<div class="k dark" style="flex:0 0 auto"><div class="l">Total beli hari ini</div><div class="v"><span id="t-beli">0</span> kg</div></div>' +
+    '<div class="k dark" style="flex:0 0 auto"><div class="l">Total matang hari ini</div><div class="v"><span id="t-matang">0</span> kg</div></div></div>' +
+    '<div class="tw"><table><thead><tr><th>Bahan</th><th>Bersih / porsi (g)</th><th>BDD</th><th>Beli / porsi (g)</th><th>Matang / porsi (g)</th><th>Total beli (kg)</th><th>Total matang (kg)</th></tr></thead><tbody>' +
+    (body || '<tr><td colspan="7" class="mute">Belum ada bahan dari Chef.</td></tr>') + '</tbody></table></div>' +
+    '<div class="alert warn">Berat beli = berat bersih ÷ (BDD ÷ 100). Budget dan PO dihitung dari berat beli. BDD dan nilai gizi diatur di Master Bahan.</div></div>' +
+    '<div class="card"><h2>Cek gizi per porsi</h2><div class="row">' + gcards + '</div><div id="gz-note" class="mute"></div>' +
+    (ed ? '<div class="row"><button class="btn" data-act="gr-save">Simpan draft</button><button class="btn pri" id="gr-send" data-act="gr-send">Kirim ke Akuntan</button></div>' : notYetOrView('gramasi', h)) + '</div>';
+}
+function liveGramasi() {
+  var h = H(S.hari), st = draft('gramasi', function () { return { porsi: '', rows: [] }; });
+  var porsi = num(st.porsi), beli = 0, matang = 0, gz = [0, 0, 0, 0], lengkap = st.rows.length > 0;
+  st.rows.forEach(function (r, i) {
+    var b = bahanById(r.bahan_id); if (!b) return;
+    var a = num(r.bersih_g), m = num(r.matang_g);
+    if (a <= 0 || m <= 0 || b.bdd <= 0) lengkap = false;
+    var bg = b.bdd > 0 ? a / (b.bdd / 100) : 0;
+    beli += bg * porsi / 1000; matang += m * porsi / 1000;
+    GIZI.forEach(function (g, k) { gz[k] += a / 100 * b[g[0]]; });
+    var set = function (id, v) { var e = $('#' + id); if (e) e.textContent = v; };
+    set('gb' + i, nf(bg)); set('gt' + i, nf(bg * porsi / 1000)); set('gm' + i, nf(m * porsi / 1000));
+  });
+  var s1 = $('#t-beli'); if (s1) s1.textContent = nf(beli);
+  var s2 = $('#t-matang'); if (s2) s2.textContent = nf(matang);
+  var kurang = false, belum = false;
+  GIZI.forEach(function (g, k) {
+    var raw = S.data.setting['batas_' + g[0]], v = $('#gz-' + g[0]); if (!v) return;
+    v.textContent = nf(gz[k], k === 0 ? 0 : 1);
+    var el = $('#gs-' + g[0]);
+    if (raw === '' || raw == null) { belum = true; el.innerHTML = '<span class="chip info">Batas belum diatur</span>'; }
+    else if (gz[k] >= num(raw)) el.innerHTML = '<span class="chip ok">Terpenuhi · min ' + nf(num(raw), 1) + '</span>';
+    else { kurang = true; el.innerHTML = '<span class="chip bad">Kurang · min ' + nf(num(raw), 1) + '</span>'; }
+  });
+  var note = $('#gz-note');
+  if (note) note.textContent = kurang ? 'Ada gizi yang kurang: menu hari ini tidak bisa dikirim ke Akuntan sampai gramasi diubah atau menu diganti.' : (belum ? 'Batas gizi minimum belum diisi (Master & Pengaturan). Cek gizi belum berlaku untuk nilai tersebut.' : '');
+  var btn = $('#gr-send'); if (btn) btn.disabled = kurang || !lengkap || !(porsi > 0);
+}
+
+/* ---------- 4. Budget harian ---------- */
+function vBudget() {
+  var d = S.data, h = H(S.hari), c = h.calc;
+  var anggaran = num(d.setting.anggaran_per_porsi);
+  var maxv = 0; d.hari.forEach(function (x) { maxv = Math.max(maxv, x.calc.biaya, x.calc.batas || 0); }); maxv = (maxv || 1) * 1.05;
+  var over = d.hari.filter(function (x) { return x.calc.melebihi; }).map(function (x) { return 'H' + x.hari; });
+  var sum = d.hari.map(function (x) {
+    var k = x.calc, hasil = '<span class="chip info">Belum</span>';
+    if (k.jumlahBahan) hasil = k.melebihi ? '<span class="chip bad">Melebihi batas</span>' : (k.batas ? '<span class="chip ok">Lolos</span>' : '<span class="chip info">Batas belum diatur</span>');
+    return '<tr><td><b>H' + x.hari + '</b></td><td>' + (k.jumlahBahan ? rp(k.biaya) : '—') + '</td><td><div class="bar"><i class="' + (k.melebihi ? 'over' : '') + '" style="width:' + Math.round(k.biaya / maxv * 100) + '%"></i>' + (k.batas ? '<u style="left:' + (k.batas / maxv * 100).toFixed(1) + '%"></u>' : '') + '</div></td><td>' +
+      (k.selisih != null && k.jumlahBahan ? (k.selisih > 0 ? '+ ' : '− ') + rp(Math.abs(k.selisih)) : '—') + '</td><td>' + hasil + '</td><td>' + tahapChip(x) + '</td></tr>';
+  }).join('');
+  var edHarga = isR('akuntan');
+  var items = c.items.map(function (i) {
+    var b = bahanById(i.bahan_id);
+    return '<tr><td><b>' + esc(i.nama) + '</b></td><td>' + esc(i.kategori) + '</td><td>' + nf(i.kg) + ' kg</td><td><input class="n" inputmode="decimal" data-hg="' + esc(i.bahan_id) + '" value="' + (b && b.harga_per_kg ? esc(b.harga_per_kg) : '') + '" aria-label="Harga per kg ' + esc(i.nama) + '"' + (edHarga ? '' : ' disabled') + '></td><td>' + rp(i.subtotal) + '</td></tr>';
+  }).join('');
+  var alert = '';
+  if (c.melebihi && h.tahap === 'budget') alert = '<div class="alert bad" role="alert"><b>Melebihi budget belanja harian: H' + h.hari + '</b>Estimasi ' + rp(c.biaya) + ' lebih besar ' + rp(c.selisih) + ' dari batas ' + rp(c.batas) + '. Proses tidak bisa dilanjutkan ke PO. Kembalikan ke Ahli Gizi untuk ganti menu; Chef hanya mengisi ulang bahan hari ini.</div>';
+  else if (h.tahap === 'budget' && c.batas && !c.hargaKosong.length) alert = '<div class="alert ok" role="status"><b>Sesuai anggaran harian</b>Sisa ' + rp(c.batas - c.biaya) + ' dari batas ' + rp(c.batas) + '. Hari ini bisa diproses menjadi PO.</div>';
+  var warn = [];
+  if (!(anggaran > 0)) warn.push('Anggaran per porsi belum diisi (Master & Pengaturan).');
+  if (c.hargaKosong.length && h.tahap === 'budget') warn.push('Harga belum diisi: ' + c.hargaKosong.join(', ') + '.');
+  var aksi = '';
+  if (h.tahap === 'budget' && isR('akuntan')) {
+    aksi = '<div class="row"><button class="btn" data-act="harga-save">Simpan harga</button>' +
+      '<button class="btn pri" data-act="budget-proses"' + (c.melebihi || c.hargaKosong.length || !(anggaran > 0) ? ' disabled' : '') + '>Proses ke PO hari ini</button></div>';
+  }
+  var ganti = '';
+  if ((h.tahap === 'budget' || h.tahap === 'po') && isR('akuntan', 'ahli_gizi')) {
+    ganti = '<div class="card" style="background:#FBF8EE"><h2>Ganti menu hari ke-' + h.hari + '</h2><div class="mute">Hanya hari ini yang kembali ke Susun Menu. Bahan dan gramasi hari ini dikosongkan, Chef mengisi ulang. PO hari ini dibatalkan dan PO baru perlu disetujui lagi. Hari lain tidak berubah.</div>' +
+      '<div><label for="alasan">Alasan penggantian</label><input id="alasan" class="w" placeholder="Contoh: melebihi budget harian"></div>' +
+      '<div><button class="btn bad" data-act="budget-kembali">Kembalikan ke Ahli Gizi</button></div></div>';
+  }
+  return head('Tahap 4 · Akuntan · dicek per hari', 'Budget Harian') +
+    (over.length ? '<div class="alert bad" role="alert"><b>Melebihi budget belanja harian: ' + esc(over.join(' dan ')) + '</b>PO hari tersebut tidak bisa dibuat. Hari yang lolos tetap bisa diproses.</div>' : '') +
+    '<div class="row"><div class="k"><div class="l">Anggaran per porsi</div><div class="v">' + (anggaran > 0 ? rp(anggaran) : 'Belum diisi') + '</div></div>' +
+    '<div class="k"><div class="l">Batas harian hari ke-' + h.hari + '</div><div class="v">' + (c.batas ? rp(c.batas) : '—') + '</div><div class="mute">' + (c.porsi ? nf(c.porsi, 0) + ' porsi' : 'porsi belum diisi') + '</div></div>' +
+    '<div class="k dark"><div class="l">Estimasi hari ke-' + h.hari + '</div><div class="v">' + (c.jumlahBahan ? rp(c.biaya) : '—') + '</div></div></div>' +
+    '<div class="card"><h2>Ringkasan 10 hari</h2><div class="tw"><table><thead><tr><th>Hari</th><th>Estimasi</th><th>Terhadap batas harian (garis = batas)</th><th>Selisih</th><th>Hasil</th><th>Tahap</th></tr></thead><tbody>' + sum + '</tbody></table></div></div>' +
+    dayTabs() + catatanBanner(h) +
+    '<div class="card"><h2>Rincian hari ke-' + h.hari + '</h2>' + alert +
+    (warn.length ? '<div class="alert warn">' + esc(warn.join(' ')) + '</div>' : '') +
+    (c.items.length ? '<div class="tw"><table><thead><tr><th>Bahan</th><th>Kategori</th><th>Berat beli</th><th>Harga / kg (Rp)</th><th>Subtotal</th></tr></thead><tbody>' + items + '</tbody></table></div>' : '<div class="mute">Belum ada gramasi untuk hari ini (tahap: ' + esc(TAHAP[h.tahap]) + ').</div>') +
+    aksi + '</div>' + ganti;
+}
+
+/* ---------- 5. PO ---------- */
+function vPO() {
+  var h = H(S.hari), po = latestPO(h.hari);
+  var hist = S.data.po.filter(function (p) { return p.hari === h.hari; }).sort(function (a, b) { return b.versi - a.versi; });
+  var stChip = function (s) { return '<span class="chip ' + ({ draft: 'info', menunggu: 'warn', disetujui: 'ok', ditolak: 'bad', dibatalkan: 'info' }[s] || 'info') + '">' + esc({ draft: 'Belum diajukan', menunggu: 'Menunggu persetujuan', disetujui: 'Disetujui', ditolak: 'Ditolak', dibatalkan: 'Dibatalkan' }[s] || s) + '</span>'; };
+  var body;
+  if (!po) {
+    body = '<div class="alert info"><b>Belum ada PO untuk hari ke-' + h.hari + '</b>PO dibuat otomatis setelah hari ini lolos budget harian (tahap sekarang: ' + esc(TAHAP[h.tahap]) + ').</div>';
+  } else {
+    var r = po.rincian || { kategori: [], items: [] };
+    var kat = r.kategori.map(function (k) { return '<tr><td>' + esc(k.kategori) + '</td><td>' + nf(k.kg) + ' kg</td><td style="text-align:right"><b>' + rp(k.subtotal) + '</b></td></tr>'; }).join('');
+    var it = r.items.map(function (k) { return '<tr><td>' + esc(k.nama) + '</td><td>' + nf(k.kg) + ' kg</td><td>' + rp(k.harga) + '</td><td style="text-align:right">' + rp(k.subtotal) + '</td></tr>'; }).join('');
+    var aksi = '';
+    if (isR('akuntan') && (po.status === 'draft' || po.status === 'ditolak')) aksi = '<div class="row"><button class="btn pri" data-act="po-ajukan" data-v="' + esc(po.id) + '">' + (po.status === 'ditolak' ? 'Ajukan ulang ke Kepala SPPG' : 'Ajukan ke Kepala SPPG') + '</button></div>';
+    if (isR('akuntan') && po.status === 'menunggu') aksi = '<div class="mute">Menunggu keputusan Kepala SPPG. PO tidak bisa diubah selama menunggu.</div>';
+    if (isR('kepala') && po.status === 'menunggu') {
+      aksi = '<div style="max-width:520px"><label for="cat">Catatan Kepala SPPG (wajib jika menolak)</label><input id="cat" class="w"></div>' +
+        '<div class="row"><button class="btn ok" data-act="po-setuju" data-v="' + esc(po.id) + '">Setujui PO</button><button class="btn bad" data-act="po-tolak" data-v="' + esc(po.id) + '">Tolak PO</button></div>';
+    }
+    body = '<div class="row"><div class="k"><div class="l">Nomor PO</div><div class="v" style="font-size:15px">' + esc(po.nomor) + '</div></div>' +
+      '<div class="k"><div class="l">Status</div><div>' + stChip(po.status) + '</div>' + (po.diputuskan_oleh ? '<div class="mute">oleh ' + esc(po.diputuskan_oleh) + '</div>' : '') + '</div>' +
+      '<div class="k dark"><div class="l">Total PO</div><div class="v">' + rp(po.total) + '</div></div></div>' +
+      (po.status === 'ditolak' && po.catatan ? '<div class="alert bad"><b>Catatan penolakan</b>' + esc(po.catatan) + '</div>' : '') +
+      (po.status === 'disetujui' ? '<div class="alert ok"><b>PO disetujui Kepala SPPG</b>PO ini siap dipakai untuk belanja hari ke-' + h.hari + '.</div>' : '') +
+      '<div class="card"><h2>Rincian per kategori</h2><div class="tw"><table><thead><tr><th>Kategori</th><th>Berat beli</th><th style="text-align:right">Subtotal</th></tr></thead><tbody>' + kat + '</tbody></table></div></div>' +
+      '<div class="card"><h2>Rincian per bahan</h2><div class="tw"><table><thead><tr><th>Bahan</th><th>Berat beli</th><th>Harga / kg</th><th style="text-align:right">Subtotal</th></tr></thead><tbody>' + it + '</tbody></table></div></div>' + aksi;
+  }
+  var riwayat = hist.length > 1 || (hist.length === 1 && hist[0].status === 'dibatalkan') ? '<div class="card"><h2>Riwayat versi PO hari ke-' + h.hari + '</h2><div class="tw"><table><thead><tr><th>Versi</th><th>Nomor</th><th>Total</th><th>Status</th></tr></thead><tbody>' +
+    hist.map(function (p) { return '<tr><td>V' + p.versi + '</td><td>' + esc(p.nomor) + '</td><td>' + rp(p.total) + '</td><td>' + stChip(p.status) + '</td></tr>'; }).join('') + '</tbody></table></div></div>' : '';
+  return head('Tahap 5 · satu PO untuk setiap hari yang lolos budget', 'Purchase Order Harian') + dayTabs() + body + riwayat;
+}
+
+/* ---------- Master & Pengaturan ---------- */
+function vMaster() {
+  var d = S.data, edG = isR('ahli_gizi'), edA = isR('akuntan');
+  var set = function (key, label, ed, hint) {
+    return '<div><label for="s-' + key + '">' + label + '</label><div class="row" style="flex-wrap:nowrap"><input id="s-' + key + '" class="w" inputmode="decimal" value="' + esc(d.setting[key]) + '"' + (ed ? '' : ' disabled') + '>' +
+      (ed ? '<button class="btn" data-act="set-save" data-v="' + key + '">Simpan</button>' : '') + '</div><div class="mute">' + hint + '</div></div>';
+  };
+  var kOpt = function (sel) { return d.meta.kategori.map(function (k) { return '<option' + (k === sel ? ' selected' : '') + '>' + esc(k) + '</option>'; }).join(''); };
+  var line = function (b, isNew) {
+    var id = isNew ? '_new' : b.id, v = function (k) { return isNew ? '' : esc(b[k]); }, dis = edG ? '' : ' disabled';
+    return '<tr data-row="' + id + '"><td>' + (isNew ? '<i class="mute">baru</i>' : esc(b.id)) + '</td>' +
+      '<td><input data-m="' + id + '|nama" value="' + v('nama') + '" aria-label="Nama bahan"' + dis + '></td>' +
+      '<td><select data-m="' + id + '|kategori" aria-label="Kategori"' + dis + '>' + kOpt(isNew ? 'Lainnya' : b.kategori) + '</select></td>' +
+      ['bdd', 'kkal', 'protein', 'lemak', 'karbo'].map(function (k) { return '<td><input class="n" style="width:72px" inputmode="decimal" data-m="' + id + '|' + k + '" value="' + v(k) + '" aria-label="' + k + '"' + dis + '></td>'; }).join('') +
+      '<td><input class="n" style="width:100px" inputmode="decimal" data-hg="' + esc(id) + '" value="' + (isNew ? '' : (b.harga_per_kg || '')) + '" aria-label="Harga per kg"' + (edA && !isNew ? '' : ' disabled') + '></td>' +
+      '<td><select data-m="' + id + '|aktif" aria-label="Aktif"' + dis + '><option' + (isNew || b.aktif === 'YA' ? ' selected' : '') + '>YA</option><option' + (!isNew && b.aktif === 'TIDAK' ? ' selected' : '') + '>TIDAK</option></select></td>' +
+      '<td><input data-m="' + id + '|sumber" value="' + v('sumber') + '" aria-label="Sumber"' + dis + '></td>' +
+      '<td>' + (edG ? '<button class="btn" data-act="bahan-master-save" data-v="' + id + '">Simpan</button>' : '') + '</td></tr>';
+  };
+  return head('Pengaturan dan data acuan', 'Master & Pengaturan') +
+    '<div class="card"><h2>Pengaturan</h2><div class="grid2">' +
+    set('anggaran_per_porsi', 'Anggaran per porsi per hari (Rp)', edA, 'Diisi Akuntan sesuai juknis. Batas harian = porsi × anggaran.') +
+    set('porsi_default', 'Porsi default per hari', edA, 'Dipakai sebagai isian awal; Ahli Gizi bisa ubah per hari.') +
+    set('batas_kkal', 'Batas minimum energi / porsi (kkal)', edG, 'Isi sesuai juknis BGN/AKG. Kosong = tidak dicek.') +
+    set('batas_protein', 'Batas minimum protein / porsi (g)', edG, 'Kosong = tidak dicek.') +
+    set('batas_lemak', 'Batas minimum lemak / porsi (g)', edG, 'Kosong = tidak dicek.') +
+    set('batas_karbo', 'Batas minimum karbohidrat / porsi (g)', edG, 'Kosong = tidak dicek.') + '</div></div>' +
+    '<div class="card"><h2>Master bahan</h2><div class="alert warn">BDD dan nilai gizi per 100 g bagian yang dapat dimakan harus dicocokkan dengan TKPI Kemenkes. Nilai awal hanya contoh. Harga per kg diisi Akuntan.</div>' +
+    '<div class="tw"><table><thead><tr><th>ID</th><th>Nama</th><th>Kategori</th><th>BDD %</th><th>kkal</th><th>Prot g</th><th>Lemak g</th><th>Karbo g</th><th>Harga/kg</th><th>Aktif</th><th>Sumber</th><th></th></tr></thead><tbody>' +
+    d.bahan.map(function (b) { return line(b, false); }).join('') + (edG ? line(null, true) : '') + '</tbody></table></div>' +
+    (edA ? '<div><button class="btn pri" data-act="harga-save">Simpan semua harga</button></div>' : '') + '</div>';
+}
+
+/* ---------- Akun ---------- */
+function vAkun() {
+  var u = S.data.user;
+  return head('Akun', 'Akun Saya') + '<div class="card"><div><b>' + esc(u.nama) + '</b> · ' + esc(u.roleNama) + ' · ' + esc(u.username) + '</div>' +
+    '<h2>Ubah password</h2><div class="grid2"><div><label for="pw1">Password lama</label><input id="pw1" type="password" class="w" autocomplete="current-password"></div>' +
+    '<div><label for="pw2">Password baru (min. 8 karakter)</label><input id="pw2" type="password" class="w" autocomplete="new-password"></div></div>' +
+    '<div class="row"><button class="btn pri" data-act="pw-save">Simpan password</button><button class="btn" data-act="logout">Keluar</button></div></div>';
+}
+
+/* ---------- events ---------- */
+document.addEventListener('input', function (e) {
+  var t = e.target, d = t.getAttribute && t.getAttribute('data-d');
+  if (!d || !S.data) return;
+  var i = Number(t.getAttribute('data-i')), f = t.getAttribute('data-f');
+  if (d === 'menu') draft('menu', function () { return []; })[i].nama = t.value;
+  else if (d === 'bahan') draft('bahan', function () { return []; })[i][f] = t.value;
+  else if (d === 'gr') { draft('gramasi', function () { return { rows: [] }; }).rows[i][f] = t.value; liveGramasi(); }
+  else if (d === 'porsi') { draft('gramasi', function () { return { rows: [] }; }).porsi = t.value; liveGramasi(); }
+});
+document.addEventListener('change', function (e) {
+  var t = e.target, d = t.getAttribute && t.getAttribute('data-d');
+  if (d === 'bahan' && S.data) draft('bahan', function () { return []; })[Number(t.getAttribute('data-i'))][t.getAttribute('data-f')] = t.value;
+});
+document.addEventListener('click', function (e) {
+  var b = e.target.closest ? e.target.closest('[data-act]') : null;
+  if (!b || !S.data && b.getAttribute('data-act') !== 'logout') return;
+  var a = b.getAttribute('data-act'), v = b.getAttribute('data-v'), h = S.hari;
+  if (a === 'tab') { S.tab = v; render(); window.scrollTo(0, 0); return; }
+  if (a === 'day') { S.hari = Number(v); render(); return; }
+  if (a === 'logout') return logout(false);
+  if (a === 'menu-save') return act(function () { return call('api_saveKomponen', S.token, h, draft('menu', function () { return []; })); }, 'Menu tersimpan', function () { clearDraft(h); });
+  if (a === 'menu-send') return act(function () { return call('api_saveKomponen', S.token, h, draft('menu', function () { return []; })).then(function () { return call('api_kirimKeChef', S.token, h); }); }, 'Menu dikirim ke Chef', function () { clearDraft(h); });
+  if (a === 'bahan-add') { var rows = draft('bahan', function () { return []; }); var k = S.data.komponen.filter(function (x) { return x.hari === h && String(x.nama).trim(); })[0]; rows.push({ komponen: k ? k.nama : '', bahan_id: '', jenis: 'Bahan' }); return render(); }
+  if (a === 'bahan-del') { draft('bahan', function () { return []; }).splice(Number(v), 1); return render(); }
+  if (a === 'bahan-save') return act(function () { return call('api_saveBahanMenu', S.token, h, draft('bahan', function () { return []; })); }, 'Bahan tersimpan', function () { clearDraft(h); });
+  if (a === 'bahan-send') return act(function () { return call('api_saveBahanMenu', S.token, h, draft('bahan', function () { return []; })).then(function () { return call('api_kirimKeGizi', S.token, h); }); }, 'Dikirim ke Ahli Gizi', function () { clearDraft(h); });
+  if (a === 'gr-save') { var g = draft('gramasi', function () { return { rows: [] }; }); return act(function () { return call('api_saveGramasi', S.token, h, g.porsi, g.rows); }, 'Gramasi tersimpan', function () { clearDraft(h); }); }
+  if (a === 'gr-send') { var g2 = draft('gramasi', function () { return { rows: [] }; }); return act(function () { return call('api_saveGramasi', S.token, h, g2.porsi, g2.rows).then(function () { return call('api_kirimKeAkuntan', S.token, h); }); }, 'Dikirim ke Akuntan', function () { clearDraft(h); }); }
+  if (a === 'harga-save') {
+    var list = []; document.querySelectorAll('[data-hg]').forEach(function (el) { if (el.getAttribute('data-hg') !== '_new' && !el.disabled) list.push({ id: el.getAttribute('data-hg'), harga_per_kg: el.value }); });
+    return act(function () { return call('api_saveHarga', S.token, list); }, 'Harga tersimpan');
+  }
+  if (a === 'budget-proses') {
+    var l2 = []; document.querySelectorAll('[data-hg]').forEach(function (el) { if (!el.disabled) l2.push({ id: el.getAttribute('data-hg'), harga_per_kg: el.value }); });
+    return act(function () { return call('api_saveHarga', S.token, l2).then(function () { return call('api_prosesBudget', S.token, h); }); }, 'PO hari ke-' + h + ' dibuat');
+  }
+  if (a === 'budget-kembali') return act(function () { return call('api_kembalikanMenu', S.token, h, ($('#alasan') || {}).value); }, 'Hari ke-' + h + ' dikembalikan ke Ahli Gizi', function () { clearDraft(h); });
+  if (a === 'po-ajukan') return act(function () { return call('api_ajukanPO', S.token, v); }, 'PO diajukan ke Kepala SPPG');
+  if (a === 'po-setuju') return act(function () { return call('api_putuskanPO', S.token, v, true, ($('#cat') || {}).value); }, 'PO disetujui');
+  if (a === 'po-tolak') return act(function () { return call('api_putuskanPO', S.token, v, false, ($('#cat') || {}).value); }, 'PO ditolak');
+  if (a === 'set-save') return act(function () { return call('api_saveSetting', S.token, v, $('#s-' + v).value); }, 'Pengaturan tersimpan');
+  if (a === 'bahan-master-save') {
+    var row = { id: v === '_new' ? '' : v };
+    document.querySelectorAll('[data-m^="' + v + '|"]').forEach(function (el) { row[el.getAttribute('data-m').split('|')[1]] = el.value; });
+    return act(function () { return call('api_saveBahan', S.token, row); }, 'Bahan tersimpan');
+  }
+  if (a === 'pw-save') return act(function () { return call('api_ubahPassword', S.token, $('#pw1').value, $('#pw2').value).then(function () { return null; }); }, 'Password diubah', function () { $('#pw1').value = ''; $('#pw2').value = ''; });
+});
+
+/* ---------- start ---------- */
+var tok = load('tok');
+if (tok) {
+  S.token = tok;
+  call('api_bootstrap', tok).then(function (d) { S.data = d; render(); }).catch(function () { store('tok', null); S.token = null; renderLogin(''); });
+} else renderLogin('');
+})();
+</script>
+</body>
+</html>
